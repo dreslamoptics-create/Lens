@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>جرّبي النظارة وسجّلي طلبك</title>
+<style>
+:root{--bg:#f4f4f8;--card:#fff;--ink:#241b3a;--mute:#6b6683;--line:#dcd9e8;--acc:#5b3fd1}
+@media (prefers-color-scheme:dark){:root{--bg:#15121f;--card:#1f1b2e;--ink:#efecfa;--mute:#a7a1c2;--line:#363050;--acc:#9a85ff}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.7}
+main{max-width:520px;margin:0 auto;padding:16px 16px 40px}
+h1{font-size:1.4rem;margin:8px 0 2px}.sub{color:var(--mute);margin:4px 0 8px;font-size:.9rem}
+.stage{position:relative;background:#000;border-radius:18px;overflow:hidden;min-height:240px}
+#cv{display:none;width:100%;height:auto}
+.empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--card);padding:20px;text-align:center}
+.empty p{margin:0;color:var(--mute)}
+.btn{font:inherit;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 16px;cursor:pointer;position:relative;overflow:hidden;display:inline-block}
+.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;font-size:0}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#status{margin:10px 2px;font-weight:700;min-height:1.7em}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:12px}
+label.l{display:flex;justify-content:space-between;font-size:.9rem;margin-top:10px}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.tools{display:flex;gap:8px;margin-top:12px}.tools .btn{flex:1;font-size:.9rem;padding:9px 6px;text-align:center}
+.note{background:#fff4e0;color:#7a4a00;border-radius:12px;padding:10px 14px;margin-top:12px;font-size:.88rem}
+video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.fr{display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px}
+.fi{flex:0 0 88px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;font-size:.72rem;padding:4px;cursor:pointer;text-align:center}
+.fi[aria-pressed="true"]{border-color:var(--acc);font-weight:800}
+.fi img{width:100%;height:42px;object-fit:contain;background:#fff;border-radius:8px;display:block;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:62px 1fr 1fr;gap:8px;align-items:center;margin-top:8px}
+.grid b{font-size:.85rem}
+select,input[type=number],input[type=text],textarea{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.opt{display:flex;gap:8px;align-items:center;margin:6px 0}
+.opt input{width:20px;height:20px;accent-color:var(--acc);flex:none}
+pre{white-space:pre-wrap;font:inherit;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.88rem;margin:10px 0}
+.warn{color:#b45309;font-weight:700}
+h2{font-size:1.05rem;margin:0 0 4px}
+details summary{cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<h1>جرّبي النظارة وسجّلي طلبك</h1>
+<p class="sub">جرّبي الإطار على وشك، وسجّلي مقاس النظر، واختاري العدسة، وابعتي الطلب للمركز.</p>
+
+<div class="stage">
+  <canvas id="cv"></canvas><video id="v" playsinline muted></video>
+  <div class="empty" id="empty">
+    <p>الصورة بتتعالج على جهازك ومش بتتبعت لأي مكان.</p>
+    <div class="row">
+      <button class="btn pri" id="bCam">افتحي الكاميرا</button>
+      <label class="btn">اختاري صورة<input type="file" id="fGal" accept="image/*"></label>
+    </div>
+  </div>
+</div>
+<div id="status" aria-live="polite">الصفحة لسه بتتحمّل... لو الرسالة دي فضلت ظاهرة، يبقى ملف try.js مش متحمّل.</div>
+<div id="ctl" hidden>
+  <div class="tools">
+    <button class="btn" id="bCmp">اضغطي مطوّلاً للمقارنة</button>
+    <button class="btn" id="bBack">رجوع</button>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>1) الإطار</h2>
+  <div class="fr" id="fr"></div>
+  <p class="sub" id="fm"></p>
+  <div id="fv" class="sub" style="font-weight:700"></div>
+  <label class="l">حجم الإطار <span id="vS">100%</span></label>
+  <input type="range" id="rS" min="70" max="130" value="100">
+  <label class="l">ارتفاع الإطار <span id="vY">0</span></label>
+  <input type="range" id="rY" min="-15" max="15" value="0">
+  <details class="sub" style="margin-top:10px"><summary>معايرة (للأخصائي)</summary>
+    <label class="l" for="cal">تعديل التقدير بالمليمتر</label>
+    <input type="number" id="cal" step="1" value="0" inputmode="numeric">
+    <p class="sub">لو الحكم بيطلع واسع أو ضيق على إطارات معروفة إنها مناسبة، عدّلي الرقم لحد ما يظبط.</p>
+  </details>
+</div>
+
+<div class="panel">
+  <h2>2) مقاس النظر</h2>
+  <p class="sub">اكتبي المقاس من روشتة فحص حديث.</p>
+  <div class="grid"><span></span><b>اليمنى OD</b><b>اليسرى OS</b></div>
+  <div class="grid"><b>SPH</b><select id="sR"></select><select id="sL"></select></div>
+  <div class="grid"><b>CYL</b><select id="cR"></select><select id="cL"></select></div>
+  <div class="grid"><b>AXIS</b><input type="number" id="aR" min="1" max="180" inputmode="numeric" placeholder="1-180"><input type="number" id="aL" min="1" max="180" inputmode="numeric" placeholder="1-180"></div>
+  <div class="grid"><b>ADD</b><select id="dR"></select><select id="dL"></select></div>
+  <div class="grid"><b>PD</b><input type="number" id="pd" min="40" max="80" step="0.5" inputmode="decimal" placeholder="مثال 63"><span class="sub">مم</span></div>
+  <div class="opt" style="margin-top:12px"><input type="checkbox" id="fresh"><label for="fresh">المقاس من فحص نظر حديث (خلال سنة)</label></div>
+</div>
+
+<div class="panel">
+  <h2>3) العدسة</h2>
+  <div class="opt"><input type="radio" name="lt" id="lt1" value="أحادية البؤرة" checked><label for="lt1">أحادية البؤرة</label></div>
+  <div class="opt"><input type="radio" name="lt" id="lt2" value="ثنائية البؤرة"><label for="lt2">ثنائية البؤرة</label></div>
+  <div class="opt"><input type="radio" name="lt" id="lt3" value="تدريجية"><label for="lt3">تدريجية</label></div>
+  <div class="opt"><input type="radio" name="lt" id="lt4" value="مكتبية (للكمبيوتر والقراءة)"><label for="lt4">مكتبية (للكمبيوتر والقراءة)</label></div>
+  <label class="l" for="th">درجة رقة العدسة (معامل الانكسار)</label>
+  <select id="th"><option value="">لا أعرف / يحدده الأخصائي</option><option>1.50</option><option>1.56</option><option>1.60</option><option>1.67</option><option>1.74</option></select>
+  <p class="sub" id="sg"></p>
+  <b style="font-size:.9rem">الإضافات</b>
+  <div class="opt"><input type="checkbox" class="ad" id="ad1" value="طبقة مضادة للانعكاس"><label for="ad1">طبقة مضادة للانعكاس</label></div>
+  <div class="opt"><input type="checkbox" class="ad" id="ad2" value="طبقة مقاومة للخدش"><label for="ad2">طبقة مقاومة للخدش</label></div>
+  <div class="opt"><input type="checkbox" class="ad" id="ad3" value="حماية UV"><label for="ad3">حماية من الأشعة فوق البنفسجية UV</label></div>
+  <div class="opt"><input type="checkbox" class="ad" id="ad4" value="فلتر الضوء الأزرق"><label for="ad4">فلتر الضوء الأزرق</label></div>
+  <div class="opt"><input type="checkbox" class="ad" id="ad5" value="عدسة متغيرة اللون"><label for="ad5">عدسة متغيرة اللون (فوتوكروميك)</label></div>
+  <div class="opt"><input type="checkbox" class="ad" id="ad6" value="طبقة طاردة للمياه والدهون"><label for="ad6">طبقة طاردة للمياه والدهون</label></div>
+  <p class="sub">فلتر الضوء الأزرق: الأدلة على فائدته في تقليل إجهاد العين غير قاطعة. اسألي الأخصائي.</p>
+</div>
+
+<div class="panel">
+  <h2>4) ملخص الطلب</h2>
+  <input type="text" id="nm" placeholder="اسمك">
+  <textarea id="nt" rows="2" placeholder="ملاحظات (اختياري)" style="margin-top:8px"></textarea>
+  <div id="fit" class="sub"></div>
+  <pre id="sum"></pre>
+  <div id="waRow" hidden><input type="text" id="wanum" inputmode="numeric" placeholder="رقم واتساب المركز بصيغة دولية مثال: 20100XXXXXXX"></div>
+  <div class="row" style="margin-top:10px"><button class="btn pri" id="bSend">أرسلي الطلب على واتساب</button><button class="btn" id="bCopy">نسخ الملخص</button></div>
+  <div id="sm" class="sub" style="font-weight:700"></div>
+</div>
+
+<div class="note">تقدير مقاس الإطار على الوش تقريبي ومحتاج وش أمامي مستقيم وPD مكتوب. الإطار على الوش مسطّح، ومقاسات الإطار والعدسة النهائية بتتأكد في المركز مع الأخصائي. المقاس المكتوب لازم يكون من فحص حديث، والأبلكيشن لا يغني عن الفحص.</div>
+</main>
+<script>window.addEventListener("error",function(e){var s=document.getElementById("status");if(s)s.textContent="خطأ في الصفحة: "+(e.message||"غير معروف")});</script>
+<script type="module" src="try.js"></script>
+</body>
+</html>
