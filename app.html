@@ -3,41 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>جرّبي العدسات الملونة مباشرة</title>
+<title>جرّبي العدسات والنظارة وسجّلي طلبك</title>
 <style>
 :root{--bg:#f4f4f8;--card:#fff;--ink:#241b3a;--mute:#6b6683;--line:#dcd9e8;--acc:#5b3fd1}
 @media (prefers-color-scheme:dark){:root{--bg:#15121f;--card:#1f1b2e;--ink:#efecfa;--mute:#a7a1c2;--line:#363050;--acc:#9a85ff}}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.7}
 main{max-width:520px;margin:0 auto;padding:16px 16px 40px}
-h1{font-size:1.4rem;margin:8px 0 2px}.sub{color:var(--mute);margin:0 0 12px;font-size:.92rem}
+h1{font-size:1.4rem;margin:8px 0 2px}h2{font-size:1.05rem;margin:0 0 4px}
+.sub{color:var(--mute);margin:4px 0 8px;font-size:.9rem}
 .stage{position:relative;background:#000;border-radius:18px;overflow:hidden;min-height:240px}
 #cv{display:none;width:100%;height:auto}
 .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--card);padding:20px;text-align:center}
 .empty p{margin:0;color:var(--mute)}
+video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .btn{font:inherit;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 16px;cursor:pointer;position:relative;overflow:hidden;display:inline-block}
 .btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 .btn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;font-size:0}
 .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-#status{margin:12px 2px;font-weight:700;min-height:1.7em}
+.tools{display:flex;gap:8px;margin-top:12px}.tools .btn{flex:1;font-size:.9rem;padding:9px 6px;text-align:center}
+#status{margin:10px 2px;font-weight:700;min-height:1.7em}
+.tabs{display:flex;gap:8px;margin-top:12px}.tabs .btn{flex:1;text-align:center}
+.tabs .btn[aria-selected="true"]{background:var(--acc);color:#fff;border-color:var(--acc)}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:12px}
-.sws{display:flex;gap:10px;flex-wrap:wrap}
-.sw{width:56px;border:0;background:none;color:var(--ink);font:inherit;font-size:.75rem;cursor:pointer;padding:0;text-align:center}
-.sw i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:26px;width:44px;height:44px;border-radius:50%;margin:0 auto 2px;border:3px solid var(--card);box-shadow:0 0 0 2px var(--line)}
-.sw[aria-pressed="true"] i{box-shadow:0 0 0 3px var(--acc)}.sw[aria-pressed="true"]{font-weight:800}
 label.l{display:flex;justify-content:space-between;font-size:.9rem;margin-top:10px}
 input[type=range]{width:100%;accent-color:var(--acc)}
-input[type=text]{width:100%;font:inherit;padding:10px;margin:10px 0;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
-.tools{display:flex;gap:8px;margin-top:12px}.tools .btn{flex:1;font-size:.9rem;padding:9px 6px;text-align:center}
+.sws{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:56px;border:0;background:none;color:var(--ink);font:inherit;font-size:.75rem;cursor:pointer;padding:0;text-align:center}
+.sw i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:24px;width:44px;height:44px;border-radius:50%;margin:0 auto 2px;border:3px solid var(--card);box-shadow:0 0 0 2px var(--line)}
+.sw[aria-pressed="true"] i{box-shadow:0 0 0 3px var(--acc)}.sw[aria-pressed="true"]{font-weight:800}
+.fr{display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px}
+.fi{flex:0 0 88px;display:flex;flex-direction:column;justify-content:center;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;font-size:.72rem;padding:4px;cursor:pointer;text-align:center}
+.fi[aria-pressed="true"]{border-color:var(--acc);font-weight:800}
+.fi img{width:100%;height:42px;object-fit:contain;background:#fff;border-radius:8px;display:block;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:62px 1fr 1fr;gap:8px;align-items:center;margin-top:8px}
+.grid b{font-size:.85rem}
+select,input[type=number],input[type=text],textarea{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input[type=text]{margin:8px 0}
+.opt{display:flex;gap:8px;align-items:center;margin:6px 0}
+.opt input{width:20px;height:20px;accent-color:var(--acc);flex:none}
+pre{white-space:pre-wrap;font:inherit;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.88rem;margin:10px 0}
 .note{background:#fff4e0;color:#7a4a00;border-radius:12px;padding:10px 14px;margin-top:12px;font-size:.88rem}
-video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.warn{color:#b45309;font-weight:700}
 #ac{display:none;width:100%;margin-top:10px;border-radius:12px;touch-action:none}
+details summary{cursor:pointer}
+#meas{white-space:pre-line}
 </style>
 </head>
 <body>
 <main>
-<h1>جرّبي العدسات الملونة مباشرة</h1>
-<p class="sub">الكاميرا بتتعرف على عينك لوحدها وتحط اللون عليها.</p>
+<h1>جرّبي العدسات والنظارة وسجّلي طلبك</h1>
+<p class="sub">جرّبي لون العدسة أو الإطار على وشك، وسجّلي المقاس، وابعتي الطلب للمركز.</p>
+
 <div class="stage">
   <canvas id="cv"></canvas><video id="v" playsinline muted></video>
   <div class="empty" id="empty">
@@ -48,101 +66,198 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
     </div>
   </div>
 </div>
-<div id="status" aria-live="polite"></div>
+<div id="status" aria-live="polite">الصفحة لسه بتتحمّل... لو الرسالة دي فضلت ظاهرة، يبقى فيه مشكلة في تحميل الصفحة.</div>
 <div id="ctl" hidden>
-  <div class="panel">
-    <div class="sws" id="sws" role="group" aria-label="العدسات"></div>
-    <button class="btn" id="bDel" hidden style="margin-top:10px">حذف هذه العدسة</button>
-    <label class="l">شدة اللون <span id="vI">70%</span></label>
-    <input type="range" id="rI" min="20" max="100" value="70">
-    <label class="l">حجم العدسة <span id="vS">100%</span></label>
-    <input type="range" id="rS" min="70" max="130" value="100">
-  </div>
   <div class="tools">
     <button class="btn" id="bCmp">اضغطي مطوّلاً للمقارنة</button>
     <button class="btn" id="bBack">رجوع</button>
   </div>
 </div>
 
-<div class="panel" id="addp" hidden>
-  <b>إضافة عدسة جديدة</b>
-  <p class="sub">صوّري العدسة من فوق على ورقة بيضاء بإضاءة هادية من غير انعكاس.</p>
-  <label class="btn pri">اختاري صورة العدسة<input type="file" id="fLens" accept="image/*"></label>
-  <div id="adet" hidden>
-    <p class="sub" style="margin-top:10px">اضغطي على مركز العدسة، وظبّطي الدايرة على حدود الجزء الملون.</p>
-    <canvas id="ac"></canvas>
-    <label class="l">حجم الدايرة <span id="vR">30%</span></label>
-    <input type="range" id="rR" min="5" max="60" value="30">
-    <input type="text" id="nm" placeholder="الماركة واللون (مثال: ماركة X عسلي)">
-    <div class="row"><button class="btn pri" id="bSave">حفظ العدسة</button><button class="btn" id="bCancel">إلغاء</button></div>
-  </div>
+<div class="tabs" role="tablist">
+  <button class="btn" id="tL" role="tab" aria-selected="true">عدسات لاصقة</button>
+  <button class="btn" id="tG" role="tab" aria-selected="false">نظارة طبية</button>
 </div>
 
-<div class="note">النتيجة تقريبية. لون العدسة بيتأثر بلون عينك الطبيعي والإضاءة والشاشة. اسألي أخصائي المركز قبل الاختيار.</div>
-</main>
+<section id="tabL">
+  <div class="panel">
+    <h2>1) لون العدسة</h2>
+    <div class="sws" id="sws" role="group" aria-label="العدسات"></div>
+    <div class="row" style="margin-top:10px;justify-content:flex-start">
+      <button class="btn" id="bDel" hidden>حذف هذه العدسة</button>
+      <button class="btn" id="bDl" hidden>تنزيل صورة العدسة لرفعها للجميع</button>
+    </div>
+    <label class="l">شدة اللون <span id="vI">70%</span></label>
+    <input type="range" id="rI" min="20" max="100" value="70">
+    <label class="l">حجم العدسة <span id="vS">100%</span></label>
+    <input type="range" id="rS" min="70" max="130" value="100">
+  </div>
+  <div class="panel" id="addp" hidden>
+    <b>إضافة عدسة جديدة</b>
+    <p class="sub">صوّري العدسة من فوق على ورقة بيضاء بإضاءة هادية من غير انعكاس.</p>
+    <label class="btn pri">اختاري صورة العدسة<input type="file" id="fLens" accept="image/*"></label>
+    <div id="adet" hidden>
+      <p class="sub" style="margin-top:10px">اضغطي على مركز العدسة، وظبّطي الدايرة على حدود الجزء الملون.</p>
+      <canvas id="ac"></canvas>
+      <label class="l">حجم الدايرة <span id="vR">30%</span></label>
+      <input type="range" id="rR" min="5" max="60" value="30">
+      <input type="text" id="lnm" placeholder="الماركة واللون (مثال: ديسيو سيدر)">
+      <div class="row"><button class="btn pri" id="bSave">حفظ العدسة</button><button class="btn" id="bCancel">إلغاء</button></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>2) بيانات العدسة اللاصقة</h2>
+    <input type="text" id="brand" placeholder="الماركة (مثال: ديسيو)">
+    <input type="text" id="model" placeholder="الموديل أو اللون">
+    <b style="font-size:.9rem">نوع الاستبدال</b>
+    <div class="opt"><input type="radio" name="rp" id="rp0" value="" checked><label for="rp0">لا أعرف / يحدده الأخصائي</label></div>
+    <div class="opt"><input type="radio" name="rp" id="rp1" value="يومية"><label for="rp1">يومية</label></div>
+    <div class="opt"><input type="radio" name="rp" id="rp2" value="شهرية"><label for="rp2">شهرية</label></div>
+    <div class="opt"><input type="radio" name="rp" id="rp3" value="سنوية"><label for="rp3">سنوية</label></div>
+    <div class="grid"><span></span><b>اليمنى</b><b>اليسرى</b></div>
+    <div class="grid"><b>القوة</b><select id="lR"></select><select id="lL"></select></div>
+    <div class="grid"><b>BC</b><select id="bcv"></select><span class="sub">مم</span></div>
+    <div class="grid"><b>DIA</b><select id="dia"></select><span class="sub">مم</span></div>
+    <p class="sub">القوة وBC وDIA بتتحدد بعد فحص الأخصائي. لو فيه استجماتيزم أو محتاجة عدسة مخصوصة، اكتبي ده في الملاحظات.</p>
+  </div>
+</section>
 
+<section id="tabG" hidden>
+  <div class="panel">
+    <h2>1) الإطار</h2>
+    <div class="fr" id="fr"></div>
+    <p class="sub" id="fm"></p>
+    <div id="fv" class="sub" style="font-weight:700"></div>
+    <label class="l">حجم الإطار <span id="vF">100%</span></label>
+    <input type="range" id="rF" min="70" max="130" value="100">
+    <label class="l">ارتفاع الإطار <span id="vY">0</span></label>
+    <input type="range" id="rY" min="-15" max="15" value="0">
+    <details class="sub" style="margin-top:10px"><summary>معايرة (للأخصائي)</summary>
+      <label class="l" for="cal">تعديل التقدير بالمليمتر</label>
+      <input type="number" id="cal" step="1" value="0" inputmode="numeric">
+      <p class="sub">لو الحكم بيطلع واسع أو ضيق على إطارات معروفة إنها مناسبة، عدّلي الرقم لحد ما يظبط.</p>
+    </details>
+  </div>
+  <div class="panel">
+    <h2>2) قياسات الوش والإطار (تقديرية)</h2>
+    <div id="meas" class="sub">افتحي الكاميرا أو اختاري صورة وش أمامية عشان نقدّر القياسات.</div>
+    <div class="row" style="margin-top:8px"><button class="btn pri" id="bLock">سجّلي القياسات في الروشتة</button><button class="btn" id="bCal">معايرة بكارت</button></div>
+    <div id="ms" class="sub" style="font-weight:700"></div>
+    <details class="sub"><summary>إزاي نزوّد الدقة؟</summary>
+      <p class="sub">القياس التلقائي بيفترض إن قطر القزحية 11.7 مم، فدقته تقريباً ±2 إلى 3 مم. للدقة الأعلى: صوّري نفسك وانتي ماسكة كارت بنك أو هوية (عرضه 8.56 سم) مسطّح وملزوق جنب العين وبنفس مستوى الوش، وبصي للكاميرا بشكل مستقيم. اختاري الصورة دي، ودوسي «معايرة بكارت»، وبعدين دوسي على طرفي الكارت الأيسر والأيمن.</p>
+      <p class="sub">SH هو ارتفاع مركز البؤبؤ فوق أسفل العدسة، وبيتقدّر من وضع الإطار الحالي (اظبطي «ارتفاع الإطار» لحد ما يستقر على الأنف).</p>
+    </details>
+  </div>
+  <div class="panel">
+    <h2>3) مقاس النظر</h2>
+    <p class="sub">اكتبي المقاس من روشتة فحص حديث.</p>
+    <div class="grid"><span></span><b>اليمنى OD</b><b>اليسرى OS</b></div>
+    <div class="grid"><b>SPH</b><select id="sR"></select><select id="sL"></select></div>
+    <div class="grid"><b>CYL</b><select id="cR"></select><select id="cL"></select></div>
+    <div class="grid"><b>AXIS</b><input type="number" id="aR" min="1" max="180" inputmode="numeric" placeholder="1-180"><input type="number" id="aL" min="1" max="180" inputmode="numeric" placeholder="1-180"></div>
+    <div class="grid"><b>ADD</b><select id="dR"></select><select id="dL"></select></div>
+    <div class="grid"><b>PD</b><input type="number" id="pd" min="40" max="80" step="0.5" inputmode="decimal" placeholder="مثال 63"><span class="sub">مم</span></div>
+    <div class="grid"><b>PD أحادي</b><input type="number" id="mR" step="0.5" inputmode="decimal" placeholder="يمين"><input type="number" id="mL" step="0.5" inputmode="decimal" placeholder="يسار"></div>
+    <div class="grid"><b>SH</b><input type="number" id="hR" step="0.5" inputmode="decimal" placeholder="يمين"><input type="number" id="hL" step="0.5" inputmode="decimal" placeholder="يسار"></div>
+    <div class="opt" style="margin-top:12px"><input type="checkbox" id="fresh"><label for="fresh">المقاس من فحص نظر حديث (خلال سنة)</label></div>
+  </div>
+  <div class="panel">
+    <h2>4) العدسة</h2>
+    <div class="opt"><input type="radio" name="lt" id="lt1" value="أحادية البؤرة" checked><label for="lt1">أحادية البؤرة</label></div>
+    <div class="opt"><input type="radio" name="lt" id="lt2" value="ثنائية البؤرة"><label for="lt2">ثنائية البؤرة</label></div>
+    <div class="opt"><input type="radio" name="lt" id="lt3" value="تدريجية"><label for="lt3">تدريجية</label></div>
+    <div class="opt"><input type="radio" name="lt" id="lt4" value="مكتبية (للكمبيوتر والقراءة)"><label for="lt4">مكتبية (للكمبيوتر والقراءة)</label></div>
+    <label class="l" for="th">درجة رقة العدسة (معامل الانكسار)</label>
+    <select id="th"><option value="">لا أعرف / يحدده الأخصائي</option><option>1.50</option><option>1.56</option><option>1.60</option><option>1.67</option><option>1.74</option></select>
+    <p class="sub" id="sg"></p>
+    <b style="font-size:.9rem">الإضافات</b>
+    <div class="opt"><input type="checkbox" class="ad" id="ad1" value="طبقة مضادة للانعكاس"><label for="ad1">طبقة مضادة للانعكاس</label></div>
+    <div class="opt"><input type="checkbox" class="ad" id="ad2" value="طبقة مقاومة للخدش"><label for="ad2">طبقة مقاومة للخدش</label></div>
+    <div class="opt"><input type="checkbox" class="ad" id="ad3" value="حماية UV"><label for="ad3">حماية من الأشعة فوق البنفسجية UV</label></div>
+    <div class="opt"><input type="checkbox" class="ad" id="ad4" value="فلتر الضوء الأزرق"><label for="ad4">فلتر الضوء الأزرق</label></div>
+    <div class="opt"><input type="checkbox" class="ad" id="ad5" value="عدسة متغيرة اللون"><label for="ad5">عدسة متغيرة اللون (فوتوكروميك)</label></div>
+    <div class="opt"><input type="checkbox" class="ad" id="ad6" value="طبقة طاردة للمياه والدهون"><label for="ad6">طبقة طاردة للمياه والدهون</label></div>
+    <p class="sub">فلتر الضوء الأزرق: الأدلة على فائدته في تقليل إجهاد العين غير قاطعة. اسألي الأخصائي.</p>
+  </div>
+</section>
+
+<div class="panel">
+  <h2>ملخص الطلب</h2>
+  <input type="text" id="nm" placeholder="اسمك">
+  <textarea id="nt" rows="2" placeholder="ملاحظات (اختياري)"></textarea>
+  <div id="fit" class="sub"></div>
+  <pre id="sum"></pre>
+  <div id="waRow" hidden><input type="text" id="wanum" inputmode="numeric" placeholder="رقم واتساب المركز بصيغة دولية مثال: 20100XXXXXXX"></div>
+  <div class="row" style="margin-top:10px"><button class="btn pri" id="bSend">أرسلي الطلب على واتساب</button><button class="btn" id="bCopy">نسخ الملخص</button></div>
+  <div id="sm" class="sub" style="font-weight:700"></div>
+</div>
+
+<div class="note">النتيجة تقريبية: لون العدسة بيتأثر بلون عينك الطبيعي والإضاءة والشاشة، والإطار على الوش مسطّح، وتقدير مقاسه محتاج وش أمامي مستقيم وPD مكتوب. العدسات اللاصقة والنظارة بيتحدد مقاسها النهائي في المركز مع الأخصائي بعد فحص حديث، والأبلكيشن لا يغني عن الفحص.</div>
+</main>
+<script>window.addEventListener("error",function(e){var s=document.getElementById("status");if(s)s.textContent="خطأ في الصفحة: "+(e.message||"غير معروف")});</script>
 <script type="module">
-import {FaceLandmarker,FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+const $=i=>document.getElementById(i);
+$("status").textContent="";
 const WASM="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm";
 const MODEL="https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
 const COLORS=[["رمادي","#8f9db0"],["أزرق","#3f7fd1"],["أخضر","#3f9a62"],["عسلي","#b9833a"],["بني فاتح","#8a5a34"],["بنفسجي","#8a58b8"],["تركوازي","#2fb5b0"],["أزرق جليدي","#8fc4e8"]];
 const EYE=[[33,7,163,144,145,153,154,155,133,173,157,158,159,160,161,246],[362,382,381,380,374,373,390,249,263,466,388,387,386,385,384,398]];
 const IRIS=[[468,469,470,471,472],[473,474,475,476,477]];
-const $=i=>document.getElementById(i);
 const cv=$("cv"),ctx=cv.getContext("2d"),video=$("v");
-let lm=null,mode="VIDEO",cur=0,st={op:.7,sc:1},running=false,stream=null,still=null,lastPts=null,compare=false,cache={},lastT=-1;
+let lm=null,mode="VIDEO",running=false,stream=null,still=null,lastPts=null,compare=false,lastT=-1,vcount=0;
+const HVID=11.7;let calibMM=0,S={},FI={},calMode=false,calPts=[];
+const st={op:.7,sc:1,fs:1,dy:0};
+const msg=t=>{$("status").textContent=t};
+const repaint=()=>{if(still)paintStill()};
+const val=id=>$(id).value;
 
-const LENS=COLORS.map(c=>({n:c[0],c:c[1]}));
-try{JSON.parse(localStorage.getItem("lenses2")||"[]").forEach(o=>{const im=new Image();im.src=o.u;LENS.push({n:o.n,u:o.u,im})})}catch(e){}
-function persist(){try{localStorage.setItem("lenses2",JSON.stringify(LENS.filter(l=>l.u).map(l=>({n:l.n,u:l.u}))))}catch(e){msg("المساحة المتاحة لحفظ العدسات امتلت.")}}
-function msg(t){$("status").textContent=t}
-function repaint(){if(still)paintStill()}
-function renderSw(){
-  const w=$("sws");w.innerHTML="";
-  LENS.forEach((l,i)=>{
-    const b=document.createElement("button");b.className="sw";b.setAttribute("aria-pressed",i===cur);
-    const d=document.createElement("i");d.style.background=l.u?"#ccc url("+l.u+") center/cover":l.c;
-    b.append(d,document.createTextNode(l.n));
-    b.onclick=()=>{cur=i;renderSw();repaint()};w.appendChild(b);
-  });
-  const a=document.createElement("button");a.className="sw";
-  const d=document.createElement("i");d.textContent="+";d.style.background="var(--card)";
-  a.append(d,document.createTextNode("أضيفي عدسة"));
-  a.onclick=()=>{$("addp").hidden=false;$("addp").scrollIntoView()};w.appendChild(a);
-  $("bDel").hidden=!LENS[cur].u;
+/* ---------- colored lenses ---------- */
+const BASE=COLORS.map(c=>({n:c[0],c:c[1]}));
+const SHARED=[],LOCAL=[],LENS=[];let curL=-1,lcache={};
+try{JSON.parse(localStorage.getItem("lenses2")||"[]").forEach(o=>{const im=new Image();im.src=o.u;LOCAL.push({n:o.n,u:o.u,im,local:true})})}catch(e){}
+function rebuild(){
+  const n=curL>=0&&LENS[curL]?LENS[curL].n:null;
+  LENS.length=0;LENS.push(...BASE,...SHARED,...LOCAL);
+  curL=n?LENS.findIndex(l=>l.n===n):-1;lcache={};
 }
-renderSw();
-$("bDel").onclick=()=>{if(!LENS[cur].u)return;LENS.splice(cur,1);cur=0;cache={};persist();renderSw();repaint()};
-$("rI").oninput=e=>{st.op=e.target.value/100;$("vI").textContent=e.target.value+"%";repaint()};
-$("rS").oninput=e=>{st.sc=e.target.value/100;$("vS").textContent=e.target.value+"%";repaint()};
-
-async function init(){
-  msg("جاري تحميل نموذج التعرف على العين، ممكن ياخد ثواني أول مرة...");
-  const fs=await FilesetResolver.forVisionTasks(WASM);
-  const mk=d=>FaceLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:MODEL,delegate:d},runningMode:"VIDEO",numFaces:1});
-  try{lm=await mk("GPU")}catch(e){lm=await mk("CPU")}
+rebuild();
+function persist(){try{localStorage.setItem("lenses2",JSON.stringify(LOCAL.map(l=>({n:l.n,u:l.u}))))}catch(e){msg("المساحة المتاحة لحفظ العدسات امتلت.")}}
+function sw(label,bg,txt,fn,pr){
+  const b=document.createElement("button");b.className="sw";b.setAttribute("aria-pressed",!!pr);
+  const d=document.createElement("i");d.style.background=bg;if(txt)d.textContent=txt;
+  b.append(d,document.createTextNode(label));b.onclick=fn;$("sws").appendChild(b);
+}
+let lastAuto="";
+function autoModel(){const m=$("model");if(!m.value||m.value===lastAuto){lastAuto=curL>=0?LENS[curL].n:"";m.value=lastAuto}}
+function pickL(i){curL=i;renderSw();autoModel();repaint();refresh()}
+function renderSw(){
+  $("sws").innerHTML="";
+  sw("بدون","var(--card)","✕",()=>pickL(-1),curL<0);
+  LENS.forEach((l,i)=>sw(l.n,l.u?"#ccc url("+l.u+") center/cover":l.c,"",()=>pickL(i),i===curL));
+  sw("أضيفي عدسة","var(--card)","+",()=>{$("addp").hidden=false;$("addp").scrollIntoView()},false);
+  const mine=curL>=0&&!!LENS[curL].local;$("bDel").hidden=!mine;$("bDl").hidden=!mine;
 }
 function shade(h,p){const n=parseInt(h.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;const t=p<0?0:255,q=Math.abs(p);
   return "rgb("+Math.round((t-r)*q+r)+","+Math.round((t-g)*q+g)+","+Math.round((t-b)*q+b)+")"}
 function tex(l,r){
-  r=Math.max(6,Math.round(r/2)*2);const k=l.n+r;if(cache[k])return cache[k];
-  if(Object.keys(cache).length>40)cache={};
+  r=Math.max(6,Math.round(r/2)*2);const k=l.n+r;if(lcache[k])return lcache[k];
+  if(Object.keys(lcache).length>40)lcache={};
   const d=r*2,c=document.createElement("canvas");c.width=c.height=d;const x=c.getContext("2d"),m=r;
-  if(l.u){if(!(l.im.complete&&l.im.naturalWidth))return c;x.drawImage(l.im,0,0,d,d);return cache[k]=c}
-  const color=l.c;
+  if(l.u){if(!(l.im.complete&&l.im.naturalWidth))return c;x.drawImage(l.im,0,0,d,d);return lcache[k]=c}
   const g=x.createRadialGradient(m,m,r*.3,m,m,r);
-  g.addColorStop(0,shade(color,.25));g.addColorStop(.55,color);g.addColorStop(.88,shade(color,-.2));g.addColorStop(1,shade(color,-.55));
+  g.addColorStop(0,shade(l.c,.25));g.addColorStop(.55,l.c);g.addColorStop(.88,shade(l.c,-.2));g.addColorStop(1,shade(l.c,-.55));
   x.fillStyle=g;x.beginPath();x.arc(m,m,r,0,7);x.fill();
   let s=7;const rnd=()=>(s=s*16807%2147483647)/2147483647;x.lineWidth=Math.max(1,r*.03);
   for(let i=0;i<90;i++){const a=rnd()*6.283,r0=r*(.38+rnd()*.1),r1=r*(.7+rnd()*.28);
     x.strokeStyle=rnd()>.5?"rgba(255,255,255,.22)":"rgba(0,0,0,.2)";x.beginPath();
     x.moveTo(m+Math.cos(a)*r0,m+Math.sin(a)*r0);x.lineTo(m+Math.cos(a)*r1,m+Math.sin(a)*r1);x.stroke()}
-  return cache[k]=c;
+  return lcache[k]=c;
 }
-function drawEye(p,W,H,e){
+function lensEye(p,W,H,e){
+  const l=LENS[curL];if(!l)return;
   const c=p[IRIS[e][0]],cx=c.x*W,cy=c.y*H;let r=0;
   for(let k=1;k<5;k++){const q=p[IRIS[e][k]];r+=Math.hypot(q.x*W-cx,q.y*H-cy)}
-  r=r/4*st.sc;const t=tex(LENS[cur],r);
+  r=r/4*st.sc;const t=tex(l,r);
   ctx.save();
   ctx.beginPath();EYE[e].forEach((i,k)=>{const q=p[i];k?ctx.lineTo(q.x*W,q.y*H):ctx.moveTo(q.x*W,q.y*H)});ctx.closePath();ctx.clip();
   ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.moveTo(cx+r*.36,cy);ctx.arc(cx,cy,r*.36,0,7);ctx.clip("evenodd");
@@ -150,33 +265,171 @@ function drawEye(p,W,H,e){
   ctx.globalCompositeOperation="source-over";ctx.globalAlpha=st.op*.3;ctx.drawImage(t,cx-t.width/2,cy-t.height/2);
   ctx.restore();
 }
+
+/* ---------- frames ---------- */
+const FR=[];let curF=-1;
+function prep(src,white){
+  const sw=src.naturalWidth||src.width,sh=src.naturalHeight||src.height,k=Math.min(1,900/sw);
+  const c=document.createElement("canvas");c.width=Math.round(sw*k);c.height=Math.round(sh*k);
+  const x=c.getContext("2d");x.drawImage(src,0,0,c.width,c.height);
+  const d=x.getImageData(0,0,c.width,c.height),p=d.data;
+  let x0=c.width,y0=c.height,x1=0,y1=0;
+  for(let j=0;j<c.height;j++)for(let i=0;i<c.width;i++){
+    const o=(j*c.width+i)*4;
+    if(white&&p[o+3]>=250){const m=Math.min(p[o],p[o+1],p[o+2]);p[o+3]=Math.round(Math.max(0,Math.min(1,(240-m)/50))*255)}
+    if(p[o+3]>25){if(i<x0)x0=i;if(i>x1)x1=i;if(j<y0)y0=j;if(j>y1)y1=j}
+  }
+  if(x1<=x0||y1<=y0)return null;
+  x.putImageData(d,0,0);
+  const o=document.createElement("canvas");o.width=x1-x0+1;o.height=y1-y0+1;
+  o.getContext("2d").drawImage(c,x0,y0,o.width,o.height,0,0,o.width,o.height);
+  return o;
+}
+function builtin(style,color){
+  const c=document.createElement("canvas");c.width=800;c.height=320;const x=c.getContext("2d");
+  x.strokeStyle=color;x.lineWidth=16;x.lineJoin="round";x.lineCap="round";
+  const lens=(cx,s)=>{x.beginPath();
+    if(style==="round")x.arc(cx,160,115,0,7);
+    else if(style==="rect"){const w=250,h=190;if(x.roundRect)x.roundRect(cx-w/2,160-h/2,w,h,36);else x.rect(cx-w/2,160-h/2,w,h)}
+    else{x.save();x.translate(cx,160);x.rotate(s*.22);x.scale(1.25,1);x.arc(0,0,100,0,7);x.restore()}
+    x.stroke()};
+  lens(215,1);lens(585,-1);
+  x.beginPath();x.moveTo(335,135);x.quadraticCurveTo(400,95,465,135);x.stroke();
+  x.beginPath();x.moveTo(100,130);x.lineTo(20,120);x.moveTo(700,130);x.lineTo(780,120);x.stroke();
+  return c;
+}
+[["مثال دائري أسود","round","#1b1b1f",48,20,140],["مثال مستطيل بني","rect","#8a5a34",52,18,145],["مثال كات آي ذهبي","cat","#c9a24a",53,17,140]]
+  .forEach(b=>{const c=prep(builtin(b[1],b[2]),false);FR.push({n:b[0],a:b[3],b:b[4],t:b[5],cv:c,th:c.toDataURL()})});
+function frBtn(label,src,fn,pr){
+  const b=document.createElement("button");b.className="fi";b.setAttribute("aria-pressed",!!pr);
+  if(src){const im=document.createElement("img");im.src=src;im.alt="";b.appendChild(im)}
+  b.appendChild(document.createTextNode(label));b.onclick=fn;$("fr").appendChild(b);
+}
+function pickF(i){curF=i;renderFr();repaint();refresh()}
+function renderFr(){
+  $("fr").innerHTML="";
+  frBtn("بدون","",()=>pickF(-1),curF<0);
+  FR.forEach((f,i)=>frBtn(f.n,f.th,()=>pickF(i),i===curF));
+  const f=FR[curF];
+  $("fm").textContent=f?(f.a?"المقاسات: عرض العدسة "+f.a+" مم، الجسر "+f.b+" مم، طول الذراع "+f.t+" مم":"مقاسات الإطار غير مسجلة"):"";
+}
+function parseName(f){
+  let base=f.replace(/\.[^.]+$/,"").replace(/_/g," ").trim();
+  const m=base.match(/(\d{2})\s*[-x×]\s*(\d{1,2})\s*[-x×]\s*(\d{3})/);
+  let a=0,b=0,t=0;
+  if(m){a=+m[1];b=+m[2];t=+m[3];base=base.replace(m[0],"").trim()}
+  return {n:base||f,a,b,t};
+}
+
+/* ---------- shared folders on GitHub ---------- */
+async function listDir(dir){
+  const parts=location.pathname.split("/").filter(Boolean);
+  if(!location.hostname.endsWith("github.io")||!parts[0])return null;
+  const owner=location.hostname.split(".")[0],repo=parts[0],key="ls_"+dir;let list=null;
+  try{const r=await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/"+dir);
+    if(r.ok){list=(await r.json()).map(f=>f.name);localStorage.setItem(key,JSON.stringify(list))}}catch(e){}
+  if(!list){try{list=JSON.parse(localStorage.getItem(key)||"null")}catch(e){}}
+  return list?list.filter(n=>/\.(png|webp|jpe?g)$/i.test(n)).sort():null;
+}
+async function loadShared(){
+  const lf=await listDir("lenses");
+  if(lf&&lf.length){
+    lf.forEach(n=>{const u="lenses/"+encodeURIComponent(n),im=new Image();
+      im.onload=()=>{lcache={};repaint()};im.src=u;
+      SHARED.push({n:n.replace(/\.[^.]+$/,"").replace(/_+/g," "),u,im})});
+    rebuild();renderSw();
+  }
+  const ff=await listDir("frames");
+  if(ff&&ff.length){
+    FR.length=0;curF=-1;renderFr();refresh();
+    ff.forEach(n=>{const im=new Image();
+      im.onload=()=>{const c=prep(im,true);if(!c)return;FR.push({...parseName(n),cv:c,th:c.toDataURL()});renderFr();refresh();repaint()};
+      im.src="frames/"+encodeURIComponent(n)});
+  }
+}
+
+/* ---------- camera + face ---------- */
+async function init(){
+  msg("جاري تحميل نموذج التعرف على الوش، ممكن ياخد ثواني أول مرة...");
+  const {FaceLandmarker:FL,FilesetResolver:FS}=await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3");
+  const fs=await FS.forVisionTasks(WASM);
+  const mk=d=>FL.createFromOptions(fs,{baseOptions:{modelAssetPath:MODEL,delegate:d},runningMode:"VIDEO",numFaces:1});
+  try{lm=await mk("GPU")}catch(e){lm=await mk("CPU")}
+}
+function irisDia(p,W,H){
+  let d=0;
+  for(let e=0;e<2;e++){const c=p[IRIS[e][0]];let r=0;
+    for(let k=1;k<5;k++){const q=p[IRIS[e][k]];r+=Math.hypot((q.x-c.x)*W,(q.y-c.y)*H)}
+    d+=r/2}
+  return d/2;
+}
+function measure(p,W,H){
+  const d=irisDia(p,W,H);if(!(d>2))return null;
+  const mm=(calibMM||HVID)/d,R=p[468],L=p[473];
+  const dx=(L.x-R.x)*W,dy=(L.y-R.y)*H,pdPx=Math.hypot(dx,dy);if(!(pdPx>2))return null;
+  const ux=dx/pdPx,uy=dy/pdPx,A=p[133],B=p[362],mx=(A.x+B.x)/2*W,my=(A.y+B.y)/2*H;
+  const mo=q=>Math.abs((q.x*W-mx)*ux+(q.y*H-my)*uy)*mm;
+  const fwPx=Math.hypot((p[454].x-p[234].x)*W,(p[454].y-p[234].y)*H);
+  const yawr=Math.abs(p[1].x-(p[234].x+p[454].x)/2)/Math.max(.01,Math.abs(p[454].x-p[234].x));
+  return {mm,pd:pdPx*mm,mR:mo(R),mL:mo(L),face:fwPx*mm,fwPx,yawr,ok:yawr<.03};
+}
+function updS(m){
+  if(!m.ok)return;
+  const al=still?1:.12;
+  ["pd","mR","mL","face"].forEach(k=>{S[k]=S[k]?S[k]*(1-al)+m[k]*al:m[k]});
+}
+function showMeas(){
+  const o=$("meas");
+  if(!S.pd){o.textContent="افتحي الكاميرا أو اختاري صورة وش أمامية عشان نقدّر القياسات.";return}
+  const L=["PD: "+S.pd.toFixed(1)+" مم (يمين "+S.mR.toFixed(1)+" | يسار "+S.mL.toFixed(1)+")","عرض الوش: حوالي "+Math.round(S.face)+" مم"];
+  if(FI.real)L.push("عرض الإطار: "+Math.round(FI.wmm)+" مم | SH تقريبي: "+FI.sh.toFixed(1)+" مم");
+  L.push(S.ok?"وضع الوش: كويس":"وجّهي وشك لقدام ومن غير ميل عشان القياس يتحدّث.");
+  L.push(calibMM?"معايَر بكارت (قطر القزحية "+calibMM.toFixed(1)+" مم)":"تقدير تلقائي بقطر القزحية، دقته تقريباً ±2 إلى 3 مم.");
+  o.textContent=L.join("\n");
+}
+function drawAll(p,W,H){
+  const m=measure(p,W,H);if(!m)return;
+  updS(m);S.ok=m.ok;
+  if(curL>=0){lensEye(p,W,H,0);lensEye(p,W,H,1)}
+  const f=FR[curF];FI={};
+  if(f&&f.cv){
+    const l=p[468],r=p[473];
+    const cx=(l.x+r.x)/2*W,cy=(l.y+r.y)/2*H,ang=Math.atan2((r.y-l.y)*H,(r.x-l.x)*W);
+    const real=f.a>0,w=(real?(2*f.a+f.b+10)/m.mm:m.fwPx)*st.fs,h=w*f.cv.height/f.cv.width;
+    const yaw=Math.asin(Math.min(1,m.yawr/.18));
+    ctx.save();ctx.translate(cx,cy+st.dy*h);ctx.rotate(ang);ctx.scale(Math.max(.75,Math.cos(yaw)),1);
+    ctx.drawImage(f.cv,-w/2,-h/2,w,h);ctx.restore();
+    FI={real,wmm:w*m.mm,hmm:h*m.mm,sh:(h/2+st.dy*h)*m.mm};
+  }
+  if(still||++vcount%8===0){showMeas();verdict()}
+}
 function paint(src,pts,mirror){
   const W=cv.width,H=cv.height;ctx.save();
   if(mirror){ctx.translate(W,0);ctx.scale(-1,1)}
   ctx.drawImage(src,0,0,W,H);
-  if(pts&&!compare){drawEye(pts,W,H,0);drawEye(pts,W,H,1)}
+  if(pts&&!compare)drawAll(pts,W,H);
   ctx.restore();
+  calPts.forEach(q=>{ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(q.x-14,q.y);ctx.lineTo(q.x+14,q.y);ctx.moveTo(q.x,q.y-14);ctx.lineTo(q.x,q.y+14);ctx.stroke()});
 }
+function paintStill(){paint(still,lastPts,false)}
 function show(){$("empty").style.display="none";cv.style.display="block";$("ctl").hidden=false}
 function loop(){
   if(!running)return;
   if(video.readyState>=2&&video.currentTime!==lastT){
     lastT=video.currentTime;
-    const r=lm.detectForVideo(video,performance.now());
-    const pts=r.faceLandmarks[0];
+    const pts=lm.detectForVideo(video,performance.now()).faceLandmarks[0];
     paint(video,pts,true);
     msg(pts?"":"ما لقيتش وش واضح. وجّهي وشك للكاميرا وزوّدي الإضاءة.");
   }
   requestAnimationFrame(loop);
 }
 function stopCam(){running=false;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
-
 $("bCam").onclick=async()=>{
   try{
     if(!lm)await init();
     if(mode!=="VIDEO"){await lm.setOptions({runningMode:"VIDEO"});mode="VIDEO"}
     stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:1280}},audio:false});
-    video.srcObject=stream;await video.play();still=null;
+    video.srcObject=stream;await video.play();still=null;S={};
     cv.width=video.videoWidth;cv.height=video.videoHeight;show();running=true;msg("");loop();
   }catch(e){msg("تعذّر تشغيل الكاميرا أو تحميل النموذج. تأكدي إن الصفحة مفتوحة برابط https، وإنك سمحتي للكاميرا، وإن الإنترنت شغال.");console.error(e)}
 };
@@ -184,23 +437,63 @@ $("fGal").onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
   try{
     if(!lm)await init();
-    stopCam();
+    stopCam();S={};
     if(mode!=="IMAGE"){await lm.setOptions({runningMode:"IMAGE"});mode="IMAGE"}
     const im=new Image();im.src=URL.createObjectURL(f);await im.decode();
     const s=Math.min(1,1100/Math.max(im.width,im.height));
     cv.width=Math.round(im.width*s);cv.height=Math.round(im.height*s);
-    still=im;lastPts=lm.detect(im).faceLandmarks[0];show();paintStill();
+    still=im;lastPts=lm.detect(im).faceLandmarks[0];show();paintStill();verdict();
     msg(lastPts?"":"ما لقيتش وش واضح في الصورة. جرّبي صورة أقرب وإضاءتها أحسن.");
   }catch(err){msg("تعذّر فتح الصورة أو تحميل النموذج.");console.error(err)}
 };
-function paintStill(){paint(still,lastPts,false)}
-$("bBack").onclick=()=>{stopCam();still=null;cv.style.display="none";$("ctl").hidden=true;$("empty").style.display="flex";msg("");$("fGal").value=""};
+$("bBack").onclick=()=>{stopCam();still=null;S={};cv.style.display="none";$("ctl").hidden=true;$("empty").style.display="flex";msg("");$("fGal").value="";verdict()};
 const bc=$("bCmp");
 const on=e=>{e.preventDefault();compare=true;repaint()},off=()=>{if(compare){compare=false;repaint()}};
 bc.addEventListener("pointerdown",on);["pointerup","pointerleave","pointercancel"].forEach(n=>bc.addEventListener(n,off));
 bc.addEventListener("contextmenu",e=>e.preventDefault());
+$("rI").oninput=e=>{st.op=e.target.value/100;$("vI").textContent=e.target.value+"%";repaint()};
+$("rS").oninput=e=>{st.sc=e.target.value/100;$("vS").textContent=e.target.value+"%";repaint()};
+$("rF").oninput=e=>{st.fs=e.target.value/100;$("vF").textContent=e.target.value+"%";repaint()};
+$("rY").oninput=e=>{st.dy=e.target.value/100;$("vY").textContent=e.target.value;repaint()};
 
-// ---- add custom lens ----
+/* ---------- measurements: lock + card calibration ---------- */
+const ms=t=>{$("ms").textContent=t};
+$("bLock").onclick=()=>{
+  if(!S.pd){ms("لسه ما اتقاسش حاجة. افتحي الكاميرا أو اختاري صورة وش أمامية.");return}
+  const r5=x=>String(Math.round(x*2)/2);
+  $("pd").value=r5(S.pd);$("mR").value=r5(S.mR);$("mL").value=r5(S.mL);
+  if(FI.real){$("hR").value=r5(FI.sh);$("hL").value=r5(FI.sh)}
+  refresh();ms("اتسجّلت القياسات في الروشتة تحت. راجعيها مع الأخصائي.");
+};
+$("bCal").onclick=()=>{
+  if(!still||!lastPts){ms("المعايرة بتتم على صورة: اختاري صورة فيها كارت بنك أو هوية جنب العين وانتي بتبصي للكاميرا مستقيم، وبعدين دوسي معايرة تاني.");return}
+  calMode=true;calPts=[];repaint();ms("دوسي على طرف الكارت الأيسر في الصورة، وبعدين طرفه الأيمن.");
+};
+cv.addEventListener("pointerdown",e=>{
+  if(!calMode)return;
+  const b=cv.getBoundingClientRect();
+  calPts.push({x:(e.clientX-b.left)*cv.width/b.width,y:(e.clientY-b.top)*cv.height/b.height});
+  if(calPts.length===2)finishCal();
+  repaint();
+});
+function finishCal(){
+  calMode=false;
+  const a=calPts[0],b=calPts[1],px=Math.hypot(a.x-b.x,a.y-b.y);
+  if(px<30||!lastPts){calPts=[];ms("النقطتين قريبين قوي أو مفيش وش في الصورة. جرّبي تاني.");return}
+  const v=irisDia(lastPts,cv.width,cv.height)*85.6/px;
+  calPts=[];
+  if(v<9.5||v>14){ms("القياس مش منطقي (قطر القزحية طلع "+v.toFixed(1)+" مم). تأكدي إن الكارت مسطّح وفي مستوى العين، وجرّبي تاني.");return}
+  calibMM=v;S={};repaint();ms("اتعايرت: قطر القزحية عندك "+v.toFixed(1)+" مم. القياسات دلوقتي أدق.");
+}
+
+/* ---------- tabs ---------- */
+function tab(k){
+  $("tabL").hidden=k!=="L";$("tabG").hidden=k!=="G";
+  $("tL").setAttribute("aria-selected",k==="L");$("tG").setAttribute("aria-selected",k==="G");
+}
+$("tL").onclick=()=>tab("L");$("tG").onclick=()=>tab("G");
+
+/* ---------- add / delete / download custom lens ---------- */
 const ac=$("ac"),actx=ac.getContext("2d");let aimg=null,ap={x:.5,y:.5},ar=.3;
 function drawAc(){
   actx.drawImage(aimg,0,0,ac.width,ac.height);
@@ -221,11 +514,11 @@ const mv=e=>{const b=ac.getBoundingClientRect();ap={x:(e.clientX-b.left)/b.width
 ac.addEventListener("pointerdown",e=>{ac.setPointerCapture(e.pointerId);mv(e)});
 ac.addEventListener("pointermove",e=>{if(e.buttons)mv(e)});
 $("rR").oninput=e=>{ar=e.target.value/100;$("vR").textContent=e.target.value+"%";if(aimg)drawAc()};
-function closeAdd(){$("addp").hidden=true;$("adet").hidden=true;ac.style.display="none";$("fLens").value="";$("nm").value="";aimg=null}
+function closeAdd(){$("addp").hidden=true;$("adet").hidden=true;ac.style.display="none";$("fLens").value="";$("lnm").value="";aimg=null}
 $("bCancel").onclick=closeAdd;
 $("bSave").onclick=()=>{
   if(!aimg)return;
-  let name=$("nm").value.trim();if(!name){msg("اكتبي الماركة واللون الأول.");$("nm").focus();return}
+  let name=val("lnm").trim();if(!name){msg("اكتبي الماركة واللون الأول.");$("lnm").focus();return}
   const base=name;let n=2;while(LENS.some(l=>l.n===name))name=base+" "+n++;
   const S=192,o=document.createElement("canvas");o.width=o.height=S;const x=o.getContext("2d");
   const W=aimg.width,H=aimg.height,cx=ap.x*W,cy=ap.y*H;
@@ -241,8 +534,134 @@ $("bSave").onclick=()=>{
   }
   x.putImageData(d,0,0);
   const u=o.toDataURL("image/png"),im=new Image();im.src=u;
-  im.onload=()=>{LENS.push({n:name,u,im});cache={};persist();cur=LENS.length-1;renderSw();repaint();closeAdd();msg("تمت إضافة العدسة. هتلاقيها في آخر القايمة.")};
+  im.onload=()=>{
+    LOCAL.push({n:name,u,im,local:true});curL=-1;rebuild();curL=LENS.findIndex(l=>l.n===name);
+    persist();renderSw();autoModel();repaint();refresh();closeAdd();
+    msg("تمت إضافة العدسة على موبايلك. دوسي «تنزيل صورة العدسة» لو عايزاها تظهر للجميع.");
+  };
 };
+$("bDel").onclick=()=>{
+  const i=LOCAL.indexOf(LENS[curL]);if(i<0)return;
+  LOCAL.splice(i,1);curL=-1;rebuild();persist();renderSw();repaint();refresh();
+};
+$("bDl").onclick=()=>{
+  const l=LENS[curL];if(!l||!l.local)return;
+  const a=document.createElement("a");a.href=l.u;a.download=l.n.replace(/[\\\/:*?"<>|]+/g," ")+".png";
+  document.body.appendChild(a);a.click();a.remove();
+  msg("اتحمّلت صورة العدسة. ارفعيها في مجلد lenses على GitHub عشان تظهر للجميع.");
+};
+
+/* ---------- forms ---------- */
+const fmt=v=>(v>0?"+":"")+v.toFixed(2);
+const range=(a,b,s)=>{const r=[];for(let v=a;v<=b+1e-9;v+=s)r.push(Math.round(v*100)/100);return r};
+const SPH=[0,...range(-12,-.25,.25).reverse(),...range(.25,12,.25)];
+const CYL=[0,...range(-6,-.25,.25).reverse(),...range(.25,6,.25)];
+const ADD=range(.5,3.5,.25);
+function fill(id,arr,fn){$(id).innerHTML='<option value="">—</option>'+arr.map(v=>'<option value="'+v+'">'+(fn?fn(v):fmt(v))+'</option>').join("")}
+["sR","sL"].forEach(i=>fill(i,SPH));["cR","cL"].forEach(i=>fill(i,CYL));["dR","dL"].forEach(i=>fill(i,ADD));
+["lR","lL"].forEach(i=>fill(i,SPH,v=>v===0?"Plano (بدون قوة)":fmt(v)));
+fill("bcv",range(8.3,9.0,.1),v=>v.toFixed(1));
+fill("dia",range(13.8,15.0,.1),v=>v.toFixed(1));
+
+function eyeTxt(s,c,a,d){
+  const p=[];
+  if(val(s)!=="")p.push("SPH "+fmt(+val(s)));
+  if(val(c)!==""&&+val(c)!==0)p.push("CYL "+fmt(+val(c)));
+  if(val(a))p.push("AXIS "+val(a));
+  if(val(d)!=="")p.push("ADD "+fmt(+val(d)));
+  return p.join("  ")||"غير مسجل";
+}
+const cEye=id=>val(id)===""?"غير مسجل":(+val(id)===0?"Plano (بدون قوة)":fmt(+val(id)));
+const EMPTY="اختاري عدسة لاصقة أو إطار أو سجّلي مقاس عشان يظهر الملخص هنا.";
+function summary(){
+  const L=["طلب جديد"],gl=LENS[curL],fr=FR[curF];
+  const rp=document.querySelector("input[name=rp]:checked"),rpv=rp?rp.value:"";
+  const hasC=curL>=0||["lR","lL","bcv","dia"].some(i=>val(i)!=="")||val("brand").trim()!==""||val("model").trim()!==""||rpv!=="";
+  const ad=[...document.querySelectorAll(".ad:checked")].map(x=>x.value);
+  const hasG=curF>=0||["sR","sL","cR","cL","dR","dL","aR","aL","pd","mR","mL","hR","hL","th"].some(i=>val(i)!=="")||ad.length>0;
+  if(!hasC&&!hasG)return "";
+  if(val("nm").trim())L.push("الاسم: "+val("nm").trim());
+  if(hasC){
+    L.push("","— عدسات لاصقة —");
+    if(gl)L.push("اللون المختار: "+gl.n);
+    if(val("brand").trim())L.push("الماركة: "+val("brand").trim());
+    if(val("model").trim())L.push("الموديل: "+val("model").trim());
+    if(rpv)L.push("نوع الاستبدال: "+rpv);
+    if(val("lR")!==""||val("lL")!=="")L.push("القوة — اليمنى: "+cEye("lR")+" | اليسرى: "+cEye("lL"));
+    if(val("bcv")!=="")L.push("BC: "+val("bcv")+" مم");
+    if(val("dia")!=="")L.push("DIA: "+val("dia")+" مم");
+    L.push("ملحوظة: المقاس النهائي بيتحدد بعد فحص الأخصائي.");
+  }
+  if(hasG){
+    L.push("","— نظارة طبية —");
+    if(fr)L.push("الإطار: "+fr.n+(fr.a?" ("+fr.a+"-"+fr.b+"-"+fr.t+")":""));
+    L.push("العين اليمنى (OD): "+eyeTxt("sR","cR","aR","dR"));
+    L.push("العين اليسرى (OS): "+eyeTxt("sL","cL","aL","dL"));
+    if(val("pd"))L.push("PD: "+val("pd")+" مم");
+    if(val("mR")!==""||val("mL")!=="")L.push("PD أحادي — يمين: "+(val("mR")||"—")+" | يسار: "+(val("mL")||"—")+" مم");
+    if(val("hR")!==""||val("hL")!=="")L.push("SH — يمين: "+(val("hR")||"—")+" | يسار: "+(val("hL")||"—")+" مم");
+    const lt=document.querySelector("input[name=lt]:checked");
+    L.push("نوع العدسة: "+(lt?lt.value:""));
+    if(val("th"))L.push("معامل الانكسار: "+val("th"));
+    if(ad.length)L.push("الإضافات: "+ad.join("، "));
+    L.push("المقاس من فحص حديث: "+($("fresh").checked?"نعم":"لا"));
+  }
+  if(val("nt").trim())L.push("","ملاحظات: "+val("nt").trim());
+  return L.join("\n");
+}
+function verdict(){
+  const f=FR[curF],o=$("fv");
+  if(!f){o.textContent="";return}
+  if(!f.a){o.textContent="مقاسات الإطار غير مسجلة، فمفيش تقدير للمقاس.";return}
+  if(!S.face){o.textContent="افتحي الكاميرا أو اختاري صورة وش أمامية عشان نقدّر مقاس الإطار.";return}
+  const cal=+val("cal")||0,fw=2*f.a+f.b+10,d=fw-(S.face-6+cal);
+  const t=Math.abs(d)<=5?"مناسب غالباً":d<0?"ضيق على الوش غالباً":"واسع على الوش غالباً";
+  o.textContent="تقدير: عرض الوش حوالي "+Math.round(S.face)+" مم، وعرض الإطار حوالي "+Math.round(fw)+" مم. الحكم: "+t+". (تقريبي، وبيتأكد بالتجربة في المركز)";
+}
+function refresh(){
+  const f=FR[curF],v=[];
+  [["sR","cR"],["sL","cL"]].forEach(([s,c])=>{if(val(s)!==""){const sp=+val(s),cy=+val(c)||0;v.push(Math.max(Math.abs(sp),Math.abs(sp+cy)))}});
+  let t="";
+  if(v.length){const m=Math.max(...v);
+    t="اقتراح إرشادي للرقة حسب أعلى قوة: "+(m<=2?"1.50 أو 1.56":m<=4?"1.56 أو 1.60":m<=6?"1.60 أو 1.67":m<=8?"1.67":"1.67 أو 1.74")+"."}
+  if(+val("dR")>0||+val("dL")>0)t+=" فيه ADD: الأخصائي يحدد بين تدريجية أو مكتبية أو نظارة قراءة منفصلة حسب شغلك.";
+  const ltc=document.querySelector("input[name=lt]:checked"),shv=Math.min(...[+val("hR"),+val("hL")].filter(x=>x>0));
+  if(ltc&&ltc.value==="تدريجية"&&isFinite(shv)&&shv<17)t+=" تنبيه: ارتفاع العدسة (SH) صغير للتدريجي غالباً، الأخصائي هيراجع الإطار والتصميم.";
+  $("sg").textContent=t;
+  const pd=+val("pd");let fit="";
+  if(pd&&f&&f.a){
+    const dif=f.a+f.b-pd;
+    fit="انحراف مركز العدسة التقريبي: "+(dif/2).toFixed(1)+" مم.";
+    if(Math.abs(dif)>6)fit+=' <span class="warn">الإطار قد لا يناسب الـ PD ده بشكل مريح، الأخصائي هيراجعه.</span>';
+  }
+  $("fit").innerHTML=fit;
+  $("sum").textContent=summary()||EMPTY;
+  verdict();
+}
+document.addEventListener("input",refresh);
+document.addEventListener("change",refresh);
+
+/* ---------- WhatsApp ---------- */
+let WA=(new URLSearchParams(location.search).get("wa")||"").replace(/\D/g,"");
+try{if(WA)localStorage.setItem("wa",WA);else WA=localStorage.getItem("wa")||""}catch(e){}
+$("waRow").hidden=!!WA;
+const sm=t=>{$("sm").textContent=t};
+$("bSend").onclick=()=>{
+  const s=summary();if(!s){sm(EMPTY);return}
+  const n=WA||val("wanum").replace(/\D/g,"");
+  if(!n){sm("اكتبي رقم واتساب المركز بالصيغة الدولية (مثال: 20100XXXXXXX).");return}
+  try{localStorage.setItem("wa",n)}catch(e){}
+  const a=document.createElement("a");
+  a.href="https://wa.me/"+n+"?text="+encodeURIComponent(s);a.target="_blank";a.rel="noopener";
+  document.body.appendChild(a);a.click();a.remove();
+};
+$("bCopy").onclick=()=>{
+  const s=summary();if(!s){sm(EMPTY);return}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(s).then(()=>sm("تم نسخ الملخص.")).catch(()=>sm("تعذّر النسخ. انسخي النص يدوياً من المربع."));
+  else sm("تعذّر النسخ. انسخي النص يدوياً من المربع.");
+};
+
+renderSw();renderFr();refresh();loadShared();
 </script>
 </body>
 </html>
